@@ -2239,6 +2239,158 @@
             .color-guide-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            /* ========== تحسينات خاصة لجدول الترتيب مع السحب الأفقي ========== */
+            /* جعل حاوية الجدول قابلة للتمرير الأفقي فقط */
+            .standings-improved {
+                position: relative;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                border-radius: 8px;
+                border: 1px solid var(--border);
+                background: white;
+                margin: 0;
+                padding: 10px 0;
+                scrollbar-width: thin;
+                scrollbar-color: var(--accent) #f1f1f1;
+            }
+            
+            /* إضافة تلميح مرئي للسحب */
+            .standings-improved::after {
+                content: "اسحب للتمرير أفقيًا";
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                background: rgba(11, 93, 59, 0.9);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 9px;
+                z-index: 10;
+                animation: scrollHint 2s infinite;
+                pointer-events: none;
+            }
+            
+            @keyframes scrollHint {
+                0%, 100% { opacity: 0.7; }
+                50% { opacity: 1; }
+            }
+            
+            /* تحسين شريط التمرير */
+            .standings-improved::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .standings-improved::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 3px;
+                margin: 0 10px;
+            }
+            
+            .standings-improved::-webkit-scrollbar-thumb {
+                background: var(--accent);
+                border-radius: 3px;
+            }
+            
+            .standings-improved::-webkit-scrollbar-thumb:hover {
+                background: #09482c;
+            }
+            
+            /* تثبيت العمود الأول والثاني أثناء التمرير */
+            .standings-table th:nth-child(1),
+            .standings-table td:nth-child(1) {
+                position: sticky;
+                left: 0;
+                background: white;
+                z-index: 2;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+                min-width: 40px !important;
+            }
+            
+            .standings-table th:nth-child(2),
+            .standings-table td:nth-child(2) {
+                position: sticky;
+                left: 40px;
+                background: white;
+                z-index: 2;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+                min-width: 150px !important;
+                max-width: 150px !important;
+            }
+            
+            /* تثبيت رأس الجدول أثناء التمرير */
+            .standings-table thead th {
+                position: sticky;
+                top: 0;
+                background: rgba(11, 93, 59, 0.1);
+                z-index: 3;
+            }
+            
+            /* تحسين تأثير السحب النشط */
+            .standings-improved.active {
+                cursor: grabbing;
+                cursor: -webkit-grabbing;
+            }
+            
+            /* إضافة ظل عند التمرير */
+            .standings-improved:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 30px;
+                height: 100%;
+                background: linear-gradient(to left, rgba(0,0,0,0.1), transparent);
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.3s;
+                z-index: 1;
+            }
+            
+            .standings-improved.scrolled:before {
+                opacity: 1;
+            }
+            
+            /* الحفاظ على حجم مربع الأقسام والمجموعات */
+            .section {
+                overflow: visible !important;
+            }
+            
+            .group-tab-content {
+                overflow: visible !important;
+            }
+            
+            /* إضافة مساحة للجدول للتمرير */
+            .standings-table {
+                min-width: 750px;
+                margin-bottom: 0;
+            }
+            
+            /* تحسين عرض عمود الفريق على الهواتف */
+            .team-name-cell {
+                min-width: 150px;
+                max-width: 150px;
+                text-align: right !important;
+                padding-right: 10px !important;
+            }
+            
+            /* مؤشر السحب المرئي */
+            .mobile-scroll-hint {
+                display: block !important;
+                text-align: center;
+                color: var(--muted);
+                font-size: 10px;
+                padding: 5px 0 10px 0;
+                border-bottom: 1px solid var(--border);
+                background: #f9f9f9;
+                border-radius: 5px 5px 0 0;
+                margin-bottom: 5px;
+            }
+            
+            @keyframes bounceHorizontal {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(10px); }
+            }
         }
 
         /* تحسينات للشاشات الكبيرة */
@@ -2257,6 +2409,34 @@
                 width: 40px;
                 min-width: 30px;
                 max-width: 80px;
+            }
+        }
+
+        /* ========== تحسينات للشاشات المتوسطة ========== */
+        @media (max-width: 992px) and (min-width: 769px) {
+            .standings-improved {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .standings-table {
+                min-width: 700px;
+            }
+        }
+
+        /* ========== تحسينات إضافية للعرض على الهواتف ========== */
+        @media (max-width: 768px) {
+            /* الحفاظ على حجم مربع الأقسام والمجموعات */
+            #divisionsContainer,
+            #groupInfoContainer {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            /* تحسين عرض جدول الترتيب داخل مربعه */
+            .group-tab-content.active {
+                max-height: none !important;
+                overflow: visible !important;
             }
         }
     </style>
@@ -3078,6 +3258,9 @@ const DynamicDivisionsManager = {
             // إضافة مستمعات الأحداث للتبويبات
             this.attachGroupTabListeners();
             
+            // تهيئة السحب الأفقي بعد تحميل البيانات
+            setTimeout(initializeHorizontalScroll, 100);
+            
         } catch (error) {
             console.error('خطأ في تحميل بيانات المجموعة:', error);
             document.getElementById('groupInfoContainer').innerHTML = `
@@ -3130,7 +3313,7 @@ const DynamicDivisionsManager = {
         }
     },
     
-    // ========== دالة محسنة لإنشاء جدول الترتيب مع الأعمدة الجديدة ==========
+    // ========== دالة محسنة لإنشاء جدول الترتيب مع خاصية السحب ==========
     createStandingsTab(matches) {
         if (matches.length === 0) {
             return '<div class="today-matches-empty">لا توجد بيانات لجدول الترتيب</div>';
@@ -3141,6 +3324,11 @@ const DynamicDivisionsManager = {
         
         let standingsHTML = `
             <div class="standings-container standings-improved">
+                <!-- مؤشر السحب للهواتف -->
+                <div class="mobile-scroll-hint" style="display: none; text-align: center; color: var(--muted); font-size: 10px; padding: 5px 0 10px 0; border-bottom: 1px solid var(--border); background: #f9f9f9; border-radius: 5px 5px 0 0; margin-bottom: 5px;">
+                    <span style="display: inline-block; animation: bounceHorizontal 1.5s infinite;">↔ اسحب لرؤية الأعمدة كاملة ↔</span>
+                </div>
+                
                 <table class="standings-table">
                     <thead>
                         <tr>
@@ -3154,9 +3342,8 @@ const DynamicDivisionsManager = {
                             <th>له</th>
                             <th>ع</th>
                             <th>±</th>
-                            
-                            <th>انس</th> <!-- جديد: عمود الانسحابات -->
-                            <th>عقوبات</th> <!-- جديد: عمود العقوبات -->
+                            <th>انس</th>
+                            <th>عقوبات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -3180,9 +3367,8 @@ const DynamicDivisionsManager = {
                     <td>${team.goalsFor}</td>
                     <td>${team.goalsAgainst}</td>
                     <td>${team.diff > 0 ? '+' : ''}${team.diff}</td>
-                    
-                    <td>${team.withdrawals || 0}</td> <!-- عرض عدد الانسحابات -->
-                    <td>${team.penalties || 0}</td> <!-- عرض عدد العقوبات -->
+                    <td>${team.withdrawals || 0}</td>
+                    <td>${team.penalties || 0}</td>
                 </tr>
             `;
         });
@@ -3206,6 +3392,13 @@ const DynamicDivisionsManager = {
                 </div>
             </div>
         </div>
+        
+        <style>
+            @keyframes bounceHorizontal {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(10px); }
+            }
+        </style>
         `;
         
         return standingsHTML;
@@ -3228,8 +3421,8 @@ const DynamicDivisionsManager = {
                     goalsAgainst: 0, 
                     points: 0,
                     goalDifference: 0,
-                    withdrawals: 0, // جديد: عدد مرات الانسحاب
-                    penalties: 0    // جديد: عدد مرات العقوبة
+                    withdrawals: 0,
+                    penalties: 0
                 };
             }
             if (match["الفريق 2"]) {
@@ -3243,8 +3436,8 @@ const DynamicDivisionsManager = {
                     goalsAgainst: 0, 
                     points: 0,
                     goalDifference: 0,
-                    withdrawals: 0, // جديد: عدد مرات الانسحاب
-                    penalties: 0    // جديد: عدد مرات العقوبة
+                    withdrawals: 0,
+                    penalties: 0
                 };
             }
         });
@@ -3261,7 +3454,7 @@ const DynamicDivisionsManager = {
                 team1.played++;
                 team1.losses++;
                 team1.goalsAgainst += 3;
-                team1.withdrawals++; // زيادة عدد مرات الانسحاب
+                team1.withdrawals++;
                 
                 team2.played++;
                 team2.wins++;
@@ -3274,7 +3467,7 @@ const DynamicDivisionsManager = {
                 team2.played++;
                 team2.losses++;
                 team2.goalsAgainst += 3;
-                team2.withdrawals++; // زيادة عدد مرات الانسحاب
+                team2.withdrawals++;
                 
                 team1.played++;
                 team1.wins++;
@@ -3290,11 +3483,11 @@ const DynamicDivisionsManager = {
             
             // حساب العقوبات
             if (match["عقوبة الفريق 1"] && match["عقوبة الفريق 1"] !== "") {
-                team1.penalties++; // زيادة عدد مرات العقوبة
+                team1.penalties++;
             }
             
             if (match["عقوبة الفريق 2"] && match["عقوبة الفريق 2"] !== "") {
-                team2.penalties++; // زيادة عدد مرات العقوبة
+                team2.penalties++;
             }
             
             // حالة المباراة العادية
@@ -3788,6 +3981,9 @@ const DynamicDivisionsManager = {
                 // إضافة النشط للتبويب المحدد
                 this.classList.add('active');
                 document.getElementById(`${tabName}-tab`).classList.add('active');
+                
+                // تهيئة السحب الأفقي بعد تغيير التبويب
+                setTimeout(initializeHorizontalScroll, 100);
             });
         });
     },
@@ -3803,6 +3999,126 @@ const DynamicDivisionsManager = {
         await this.initialize();
     }
 };
+
+// ========== دالة لتهيئة السحب الأفقي للهواتف ==========
+function initializeHorizontalScroll() {
+    // التحقق إذا كان المستخدم على هاتف
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // إظهار مؤشر السحب للهواتف
+        document.querySelectorAll('.mobile-scroll-hint').forEach(hint => {
+            hint.style.display = 'block';
+        });
+        
+        // إضافة مستمعات الأحداث لجداول الترتيب
+        document.querySelectorAll('.standings-improved').forEach(container => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.classList.add('active');
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                isDown = false;
+                container.classList.remove('active');
+            });
+            
+            container.addEventListener('mouseup', () => {
+                isDown = false;
+                container.classList.remove('active');
+            });
+            
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+                
+                // إضافة تأثير الظل عند التمرير
+                if (container.scrollLeft > 10) {
+                    container.classList.add('scrolled');
+                } else {
+                    container.classList.remove('scrolled');
+                }
+            });
+            
+            // دعم اللمس للهواتف
+            container.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+                container.classList.add('active');
+            });
+            
+            container.addEventListener('touchend', () => {
+                isDown = false;
+                container.classList.remove('active');
+            });
+            
+            container.addEventListener('touchmove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.touches[0].pageX - container.offsetLeft;
+                const walk = (x - startX);
+                container.scrollLeft = scrollLeft - walk;
+                
+                // إضافة تأثير الظل عند التمرير
+                if (container.scrollLeft > 10) {
+                    container.classList.add('scrolled');
+                } else {
+                    container.classList.remove('scrolled');
+                }
+            });
+            
+            // إخفاء المؤشر بعد السحب الأول
+            container.addEventListener('scroll', function() {
+                const hint = this.querySelector('.mobile-scroll-hint');
+                if (hint && this.scrollLeft > 50) {
+                    hint.style.transition = 'opacity 0.5s';
+                    hint.style.opacity = '0';
+                    setTimeout(() => {
+                        hint.style.display = 'none';
+                    }, 500);
+                }
+            });
+        });
+    } else {
+        // إخفاء مؤشر السحب على الشاشات الكبيرة
+        document.querySelectorAll('.mobile-scroll-hint').forEach(hint => {
+            hint.style.display = 'none';
+        });
+    }
+}
+
+// ========== دالة لإضافة تأثيرات التمرير ==========
+function addScrollEffects() {
+    document.querySelectorAll('.standings-improved').forEach(container => {
+        container.addEventListener('scroll', function() {
+            if (this.scrollLeft > 10) {
+                this.classList.add('scrolled');
+            } else {
+                this.classList.remove('scrolled');
+            }
+            
+            // إخفاء المؤشر بعد السحب
+            const hint = this.querySelector('.mobile-scroll-hint');
+            if (hint && this.scrollLeft > 50) {
+                hint.style.transition = 'opacity 0.5s';
+                hint.style.opacity = '0';
+                setTimeout(() => {
+                    hint.style.display = 'none';
+                }, 500);
+            }
+        });
+    });
+}
 
 // ========== عرض تفاصيل المباراة ==========
 function showMatchDetails(match) {
@@ -4718,6 +5034,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(updateVisitCounter, 1000);
     setTimeout(loadAds, 1000);
     
+    // تهيئة السحب الأفقي بعد التحميل
+    setTimeout(() => {
+        initializeHorizontalScroll();
+        addScrollEffects();
+    }, 1500);
+    
     // تحديث الأقسام تلقائياً كل 5 دقائق
     setInterval(() => {
         DynamicDivisionsManager.refreshData();
@@ -4765,6 +5087,11 @@ document.addEventListener('DOMContentLoaded', function() {
             loadTodayMatches();
         }
     }, 30000);
+    
+    // تحديث السحب الأفقي عند تغيير حجم النافذة
+    window.addEventListener('resize', function() {
+        setTimeout(initializeHorizontalScroll, 300);
+    });
 });
 
 // ========== نظام التاريخ والوقت ==========
