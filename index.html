@@ -755,9 +755,11 @@
             text-align: center;
         }
         
-        /* تنسيق جديد لجدول الترتيب */
+        /* ========== تحسينات جديدة لجدول الترتيب - جميع الشاشات ========== */
         .standings-container {
             margin-top: 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .standings-table {
@@ -765,23 +767,86 @@
             border-collapse: collapse;
             margin-top: 10px;
             font-size: 12px;
+            min-width: 750px; /* عرض مناسب لجميع الأعمدة */
+        }
+        
+        /* تثبيت عرض الأعمدة بحيث تأخذ المساحة المناسبة فقط */
+        .standings-table th,
+        .standings-table td {
+            text-align: center;
+            white-space: nowrap;
+            padding: 6px 4px;
+            border-bottom: 1px solid var(--border);
         }
         
         .standings-table th {
             background: rgba(11, 93, 59, 0.1);
             color: var(--accent);
-            padding: 8px;
             font-weight: 600;
             border-bottom: 2px solid var(--accent);
-            text-align: center;
-            white-space: nowrap;
         }
         
-        .standings-table td {
-            padding: 6px 8px;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-            white-space: nowrap;
+        /* تحديد عرض ثابت ومضبوط لكل عمود */
+        .standings-table th:nth-child(1), /* # */
+        .standings-table td:nth-child(1) {
+            width: 10px;
+            min-width: 10px;
+            max-width: 20px;
+        }
+        
+       .standings-table th:nth-child(2),/* الفريق */
+        .standings-table td:nth-child(2) {
+            width: 30px;
+            min-width: 30px;
+            max-width:60px;
+            text-align: right;
+            padding-right: 20px;
+        }
+        
+        .standings-table th:nth-child(3), /* ل */
+        .standings-table td:nth-child(3),
+        .standings-table th:nth-child(4), /* ف */
+        .standings-table td:nth-child(4),
+        .standings-table th:nth-child(5), /* ت */
+        .standings-table td:nth-child(5),
+        .standings-table th:nth-child(6), /* خ */
+        .standings-table td:nth-child(6) {
+            width: 35px;
+            min-width: 35px;
+            max-width: 35px;
+        }
+        
+        .standings-table th:nth-child(7), /* له */
+        .standings-table td:nth-child(7),
+        .standings-table th:nth-child(8), /* ع */
+        .standings-table td:nth-child(8) {
+            width: 40px;
+            min-width: 40px;
+            max-width: 40px;
+        }
+        
+        /* عمود فارق الأهداف يأخذ المساحة المناسبة للكتابة فقط */
+        .standings-table th:nth-child(9), /* ± */
+        .standings-table td:nth-child(9) {
+            width: 45px;
+            min-width: 45px;
+            max-width: 45px;
+        }
+        
+        .standings-table th:nth-child(10), /* نقاط */
+        .standings-table td:nth-child(10) {
+            width: 50px;
+            min-width: 50px;
+            max-width: 50px;
+        }
+        
+        .standings-table th:nth-child(11), /* انس */
+        .standings-table td:nth-child(11),
+        .standings-table th:nth-child(12), /* عقوبات */
+        .standings-table td:nth-child(12) {
+            width: 45px;
+            min-width: 45px;
+            max-width: 45px;
         }
         
         .standings-table tr:hover {
@@ -791,6 +856,8 @@
         .team-name-cell {
             text-align: right !important;
             font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .position-cell {
@@ -890,10 +957,6 @@
         /* تحسينات للجدول */
         .standings-improved {
             overflow-x: auto;
-        }
-
-        .standings-improved table {
-            min-width: 800px;
         }
 
         /* أنماط لبرنامج الدورات */
@@ -1959,37 +2022,86 @@
                 padding: 0 10px;
             }
             
-            .standings-improved table {
-                min-width: 1000px; /* جعل الجدول أوسع قليلاً */
-                font-size: 11px; /* تصغير الخط */
-                width: 100%;
+            /* تصغير أحجام الأعمدة للهواتف */
+            .standings-table {
+                min-width: 750px;
+                font-size: 11px;
             }
             
             .standings-table th,
             .standings-table td {
-                padding: 4px 6px !important;
+                padding: 4px 3px !important;
                 font-size: 10px;
+            }
+            
+            /* تحديد عرض أصغر للأعمدة على الهواتف */
+            .standings-table th:nth-child(1),
+            .standings-table td:nth-child(1) {
+                width: 10px;
+                min-width: 10px;
+                max-width: 20px;
+            }
+            
+            .standings-table th:nth-child(2),
+            .standings-table td:nth-child(2) {
+                width: 30px;
+                min-width: 20px;
+                max-width: 70px;
+                padding-right: 8px;
+            }
+            
+            .standings-table th:nth-child(3),
+            .standings-table td:nth-child(3),
+            .standings-table th:nth-child(4),
+            .standings-table td:nth-child(4),
+            .standings-table th:nth-child(5),
+            .standings-table td:nth-child(5),
+            .standings-table th:nth-child(6),
+            .standings-table td:nth-child(6) {
+                width: 30px;
+                min-width: 30px;
+                max-width: 30px;
+            }
+            
+            .standings-table th:nth-child(7),
+            .standings-table td:nth-child(7),
+            .standings-table th:nth-child(8),
+            .standings-table td:nth-child(8) {
+                width: 35px;
+                min-width: 35px;
+                max-width: 35px;
+            }
+            
+            .standings-table th:nth-child(9),
+            .standings-table td:nth-child(9) {
+                width: 40px;
+                min-width: 40px;
+                max-width: 40px;
+            }
+            
+            .standings-table th:nth-child(10),
+            .standings-table td:nth-child(10) {
+                width: 45px;
+                min-width: 45px;
+                max-width: 45px;
+            }
+            
+            .standings-table th:nth-child(11),
+            .standings-table td:nth-child(11),
+            .standings-table th:nth-child(12),
+            .standings-table td:nth-child(12) {
+                width: 40px;
+                min-width: 40px;
+                max-width: 40px;
             }
             
             .team-name-cell {
                 min-width: 120px;
-                max-width: 150px;
+                max-width: 120px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 text-align: right !important;
-            }
-            
-            /* تحسين العرض للأعمدة الجديدة */
-            .standings-table th:nth-child(11),
-            .standings-table th:nth-child(12) {
-                min-width: 70px;
-            }
-            
-            .standings-table td:nth-child(11),
-            .standings-table td:nth-child(12) {
-                min-width: 70px;
-                text-align: center;
             }
             
             /* إضافة مؤشر السحب الأفقي */
@@ -2015,7 +2127,7 @@
             .standings-table th {
                 white-space: nowrap;
                 font-size: 10px;
-                padding: 6px 4px !important;
+                padding: 5px 3px !important;
             }
             
             /* تحسين عرض البادجات في المباريات */
@@ -2138,19 +2250,13 @@
             .news-image-container {
                 height: 250px;
             }
-        }
-
-        /* أنماط إضافية لتحسين تجربة السحب على الهواتف */
-        .standings-container {
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) #f1f1f1;
-        }
-
-        /* تحسين العرض على الشاشات المتوسطة */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .standings-improved table {
-                min-width: 900px;
-                font-size: 12px;
+            
+            /* يمكن زيادة عرض بعض الأعمدة قليلاً على الشاشات الكبيرة */
+            .standings-table th:nth-child(2),
+            .standings-table td:nth-child(2) {
+                width: 40px;
+                min-width: 30px;
+                max-width: 80px;
             }
         }
     </style>
@@ -3050,7 +3156,7 @@ const DynamicDivisionsManager = {
                             <th>±</th>
                             
                             <th>انس</th> <!-- جديد: عمود الانسحابات -->
-                            <th>عقو</th> <!-- جديد: عمود العقوبات -->
+                            <th>عقوبات</th> <!-- جديد: عمود العقوبات -->
                         </tr>
                     </thead>
                     <tbody>
