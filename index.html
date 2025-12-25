@@ -1931,8 +1931,106 @@
             transform: translateY(-2px);
         }
 
-        /* تحسينات للهواتف */
+        /* ========== تحسينات للهواتف ========== */
         @media (max-width: 768px) {
+            /* تحسين عرض الفرق جنباً إلى جنب على الهاتف */
+            .match .teams {
+                flex-direction: row !important;
+                gap: 10px;
+            }
+            
+            .match .team {
+                width: auto !important;
+                flex: 1;
+                text-align: center;
+                font-size: 12px;
+            }
+            
+            .match-result {
+                margin: 0 5px !important;
+                min-width: 40px;
+            }
+            
+            /* تحسين جدول الترتيب للهواتف */
+            .standings-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -10px;
+                padding: 0 10px;
+            }
+            
+            .standings-improved table {
+                min-width: 1000px; /* جعل الجدول أوسع قليلاً */
+                font-size: 11px; /* تصغير الخط */
+                width: 100%;
+            }
+            
+            .standings-table th,
+            .standings-table td {
+                padding: 4px 6px !important;
+                font-size: 10px;
+            }
+            
+            .team-name-cell {
+                min-width: 120px;
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                text-align: right !important;
+            }
+            
+            /* تحسين العرض للأعمدة الجديدة */
+            .standings-table th:nth-child(11),
+            .standings-table th:nth-child(12) {
+                min-width: 70px;
+            }
+            
+            .standings-table td:nth-child(11),
+            .standings-table td:nth-child(12) {
+                min-width: 70px;
+                text-align: center;
+            }
+            
+            /* إضافة مؤشر السحب الأفقي */
+            .standings-container::-webkit-scrollbar {
+                height: 4px;
+            }
+            
+            .standings-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 2px;
+            }
+            
+            .standings-container::-webkit-scrollbar-thumb {
+                background: var(--accent);
+                border-radius: 2px;
+            }
+            
+            .standings-container::-webkit-scrollbar-thumb:hover {
+                background: #09482c;
+            }
+            
+            /* تحسين الروؤوس في الجدول */
+            .standings-table th {
+                white-space: nowrap;
+                font-size: 10px;
+                padding: 6px 4px !important;
+            }
+            
+            /* تحسين عرض البادجات في المباريات */
+            .badges-container {
+                flex-wrap: wrap;
+                gap: 3px;
+                justify-content: center;
+            }
+            
+            .match-badge, .round-badge, .status-badge {
+                font-size: 9px !important;
+                padding: 1px 4px !important;
+            }
+            
+            /* تحسينات أخرى للهواتف */
             .news-main-slider {
                 min-height: 450px;
             }
@@ -1978,20 +2076,6 @@
             .matches-nav-btn {
                 padding: 10px 15px;
                 font-size: 12px;
-            }
-            
-            .match .teams {
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .match .team {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .match-result {
-                margin: 5px 0;
             }
             
             .match-time-date {
@@ -2053,6 +2137,20 @@
             
             .news-image-container {
                 height: 250px;
+            }
+        }
+
+        /* أنماط إضافية لتحسين تجربة السحب على الهواتف */
+        .standings-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) #f1f1f1;
+        }
+
+        /* تحسين العرض على الشاشات المتوسطة */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .standings-improved table {
+                min-width: 900px;
+                font-size: 12px;
             }
         }
     </style>
@@ -2916,14 +3014,8 @@ const DynamicDivisionsManager = {
                 }
             });
             
-            console.log(`الدورة ${round}: عدد الفرق اللاعبة: ${playingTeams.size}`);
-            console.log(`الدورة ${round}: الفرق اللاعبة:`, Array.from(playingTeams));
-            
             // حساب الفرق الراحلة
             const restingTeams = allTeams.filter(team => !playingTeams.has(team));
-            
-            console.log(`الدورة ${round}: عدد الفرق الراحلة: ${restingTeams.length}`);
-            console.log(`الدورة ${round}: الفرق الراحلة:`, restingTeams);
             
             return restingTeams;
         } catch (error) {
@@ -2932,6 +3024,7 @@ const DynamicDivisionsManager = {
         }
     },
     
+    // ========== دالة محسنة لإنشاء جدول الترتيب مع الأعمدة الجديدة ==========
     createStandingsTab(matches) {
         if (matches.length === 0) {
             return '<div class="today-matches-empty">لا توجد بيانات لجدول الترتيب</div>';
@@ -2947,6 +3040,7 @@ const DynamicDivisionsManager = {
                         <tr>
                             <th>#</th>
                             <th>الفريق</th>
+                            <th>نقاط</th>
                             <th>ل</th>
                             <th>ف</th>
                             <th>ت</th>
@@ -2954,7 +3048,9 @@ const DynamicDivisionsManager = {
                             <th>له</th>
                             <th>ع</th>
                             <th>±</th>
-                            <th>نقاط</th>
+                            
+                            <th>انس</th> <!-- جديد: عمود الانسحابات -->
+                            <th>عقو</th> <!-- جديد: عمود العقوبات -->
                         </tr>
                     </thead>
                     <tbody>
@@ -2970,6 +3066,7 @@ const DynamicDivisionsManager = {
                 <tr class="${rowClass}">
                     <td class="position-cell">${position}</td>
                     <td class="team-name-cell">${team.name}</td>
+                    <td class="points-cell">${team.points}</td>
                     <td>${team.played}</td>
                     <td>${team.wins}</td>
                     <td>${team.draws}</td>
@@ -2977,30 +3074,38 @@ const DynamicDivisionsManager = {
                     <td>${team.goalsFor}</td>
                     <td>${team.goalsAgainst}</td>
                     <td>${team.diff > 0 ? '+' : ''}${team.diff}</td>
-                    <td class="points-cell">${team.points}</td>
+                    
+                    <td>${team.withdrawals || 0}</td> <!-- عرض عدد الانسحابات -->
+                    <td>${team.penalties || 0}</td> <!-- عرض عدد العقوبات -->
                 </tr>
             `;
         });
         
         standingsHTML += `
-                    </tbody>
-                </table>
-                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted);">
-                        <div style="width: 15px; height: 15px; background: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60;"></div>
-                        <span>ترقية</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted);">
-                        <div style="width: 15px; height: 15px; background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c;"></div>
-                        <span>هبوط</span>
-                    </div>
+                </tbody>
+            </table>
+            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px;">
+                <div style="display: flex; align-items: center; gap: 5px; color: var(--muted);">
+                    <div style="width: 15px; height: 15px; background: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60;"></div>
+                    <span>ترقية</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; color: var(--muted);">
+                    <div style="width: 15px; height: 15px; background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c;"></div>
+                    <span>هبوط</span>
+                </div>
+                <div style="margin-left: auto; display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: var(--muted);">
+                    <div><strong>ل</strong>: لعب - <strong>ف</strong>: فوز - <strong>ت</strong>: تعادل</div>
+                    <div><strong>خ</strong>: خسارة - <strong>له</strong>: أهداف له - <strong>ع</strong>: أهداف عليه</div>
+                    <div><strong>±</strong>: فارق الأهداف - <strong>انس</strong>: انسحابات - <strong>عقوبات</strong>: عقوبات</div>
                 </div>
             </div>
+        </div>
         `;
         
         return standingsHTML;
     },
     
+    // ========== دالة محسنة لحساب الترتيب مع الإحصائيات الجديدة ==========
     calculateStandings(matches) {
         const teams = {};
         
@@ -3016,7 +3121,9 @@ const DynamicDivisionsManager = {
                     goalsFor: 0, 
                     goalsAgainst: 0, 
                     points: 0,
-                    goalDifference: 0
+                    goalDifference: 0,
+                    withdrawals: 0, // جديد: عدد مرات الانسحاب
+                    penalties: 0    // جديد: عدد مرات العقوبة
                 };
             }
             if (match["الفريق 2"]) {
@@ -3029,12 +3136,14 @@ const DynamicDivisionsManager = {
                     goalsFor: 0, 
                     goalsAgainst: 0, 
                     points: 0,
-                    goalDifference: 0
+                    goalDifference: 0,
+                    withdrawals: 0, // جديد: عدد مرات الانسحاب
+                    penalties: 0    // جديد: عدد مرات العقوبة
                 };
             }
         });
         
-        // حساب النتائج
+        // حساب النتائج والإحصائيات
         matches.forEach(match => {
             const team1 = teams[match["الفريق 1"]];
             const team2 = teams[match["الفريق 2"]];
@@ -3046,6 +3155,7 @@ const DynamicDivisionsManager = {
                 team1.played++;
                 team1.losses++;
                 team1.goalsAgainst += 3;
+                team1.withdrawals++; // زيادة عدد مرات الانسحاب
                 
                 team2.played++;
                 team2.wins++;
@@ -3058,6 +3168,7 @@ const DynamicDivisionsManager = {
                 team2.played++;
                 team2.losses++;
                 team2.goalsAgainst += 3;
+                team2.withdrawals++; // زيادة عدد مرات الانسحاب
                 
                 team1.played++;
                 team1.wins++;
@@ -3069,6 +3180,15 @@ const DynamicDivisionsManager = {
             // حالة المباراة المؤجلة
             if (match.تأجيل === true) {
                 return;
+            }
+            
+            // حساب العقوبات
+            if (match["عقوبة الفريق 1"] && match["عقوبة الفريق 1"] !== "") {
+                team1.penalties++; // زيادة عدد مرات العقوبة
+            }
+            
+            if (match["عقوبة الفريق 2"] && match["عقوبة الفريق 2"] !== "") {
+                team2.penalties++; // زيادة عدد مرات العقوبة
             }
             
             // حالة المباراة العادية
@@ -3101,14 +3221,11 @@ const DynamicDivisionsManager = {
         // حساب فارق الأهداف
         Object.values(teams).forEach(team => {
             team.goalDifference = team.goalsFor - team.goalsAgainst;
+            team.diff = team.goalDifference;
         });
         
         // تحويل إلى مصفوفة وترتيب
         return Object.values(teams)
-            .map(team => ({
-                ...team,
-                diff: team.goalDifference
-            }))
             .sort((a, b) => {
                 if (b.points !== a.points) return b.points - a.points;
                 if (b.diff !== a.diff) return b.diff - a.diff;
@@ -3294,105 +3411,104 @@ const DynamicDivisionsManager = {
     },
     
     // ========== تعديل دالة إنشاء تبويب المباريات القادمة ==========
-// ========== تعديل دالة إنشاء تبويب المباريات القادمة (نسخة مبسطة) ==========
-createUpcomingMatchesTab(matches) {
-    // البحث عن مباريات محددة التاريخ والوقت في المستقبل (في حدود أسبوعين)
-    const matchesWithScheduledDate = matches.filter(match => {
-        const status = MatchStatusSystem.determineMatchStatus(match);
+    createUpcomingMatchesTab(matches) {
+        // البحث عن مباريات محددة التاريخ والوقت في المستقبل (في حدود أسبوعين)
+        const matchesWithScheduledDate = matches.filter(match => {
+            const status = MatchStatusSystem.determineMatchStatus(match);
+            
+            // يجب أن تكون المباراة قادمة أو غير محددة
+            if (status !== 'upcoming' && status !== 'unknown') {
+                return false;
+            }
+            
+            // يجب أن يكون لها تاريخ وساعة
+            if (Helper.isDateEmpty(match.تاريخ) || Helper.isTimeEmpty(match.الساعة)) {
+                return false;
+            }
+            
+            // يجب أن يكون التاريخ في المستقبل (في حدود أسبوعين)
+            return Helper.isDateInFutureWithinTwoWeeks(match.تاريخ);
+        });
         
-        // يجب أن تكون المباراة قادمة أو غير محددة
-        if (status !== 'upcoming' && status !== 'unknown') {
-            return false;
+        // إذا وجدت مباريات محددة التاريخ، نعرضها فقط
+        if (matchesWithScheduledDate.length > 0) {
+            return this.displayScheduledMatches(matchesWithScheduledDate);
         }
         
-        // يجب أن يكون لها تاريخ وساعة
-        if (Helper.isDateEmpty(match.تاريخ) || Helper.isTimeEmpty(match.الساعة)) {
-            return false;
-        }
+        // إذا لم توجد مباريات محددة، لا نعرض أي شيء (لا نعرض مباريات الدورة التالية)
+        return '<div class="today-matches-empty">لا توجد مباريات قادمة محددة التاريخ</div>';
+    },
+    
+    // ========== دالة لعرض المباريات المحددة التاريخ ==========
+    displayScheduledMatches(matches) {
+        // ترتيب المباريات حسب التاريخ (الأقرب أولاً)
+        const sortedMatches = matches.sort((a, b) => {
+            const dateCompare = new Date(a.تاريخ) - new Date(b.تاريخ);
+            if (dateCompare !== 0) return dateCompare;
+            return (a.الساعة || '').localeCompare(b.الساعة || '');
+        });
         
-        // يجب أن يكون التاريخ في المستقبل (في حدود أسبوعين)
-        return Helper.isDateInFutureWithinTwoWeeks(match.تاريخ);
-    });
-    
-    // إذا وجدت مباريات محددة التاريخ، نعرضها فقط
-    if (matchesWithScheduledDate.length > 0) {
-        return this.displayScheduledMatches(matchesWithScheduledDate);
-    }
-    
-    // إذا لم توجد مباريات محددة، لا نعرض أي شيء (لا نعرض مباريات الدورة التالية)
-    return '<div class="today-matches-empty">لا توجد مباريات قادمة محددة التاريخ</div>';
-},
-
-// ========== دالة لعرض المباريات المحددة التاريخ ==========
-displayScheduledMatches(matches) {
-    // ترتيب المباريات حسب التاريخ (الأقرب أولاً)
-    const sortedMatches = matches.sort((a, b) => {
-        const dateCompare = new Date(a.تاريخ) - new Date(b.تاريخ);
-        if (dateCompare !== 0) return dateCompare;
-        return (a.الساعة || '').localeCompare(b.الساعة || '');
-    });
-    
-    let html = `
-        <div class="previous-rounds-grid">
-            <div class="previous-round-box">
-                <div class="previous-round-header">
-                    <span>مباريات قادمة محددة التاريخ</span>
-                    <span class="round-number">${sortedMatches.length} مباراة</span>
+        let html = `
+            <div class="previous-rounds-grid">
+                <div class="previous-round-box">
+                    <div class="previous-round-header">
+                        <span>مباريات قادمة محددة التاريخ</span>
+                        <span class="round-number">${sortedMatches.length} مباراة</span>
+                    </div>
+                    <div class="previous-round-matches">
+        `;
+        
+        sortedMatches.forEach(match => {
+            const status = MatchStatusSystem.determineMatchStatus(match);
+            const badgeClass = MatchStatusSystem.getStatusBadgeClass(status);
+            const statusText = MatchStatusSystem.getStatusText(status);
+            const dateFormatted = Helper.formatArabicDate(match.تاريخ);
+            
+            // حساب الأيام المتبقية
+            const daysDiff = Helper.getDaysDifference(match.تاريخ);
+            let daysText = '';
+            if (daysDiff >= 0) {
+                daysText = `بعد ${daysDiff} يوم${daysDiff === 1 ? '' : 'ين'}`;
+            }
+            
+            html += `
+                <div class="previous-round-match" 
+                     onclick="showMatchDetails(${JSON.stringify(match).replace(/"/g, '&quot;')})">
+                    <div class="previous-match-teams">
+                        <div style="font-weight: 600;">${match["الفريق 1"] || 'غير معروف'}</div>
+                        <div class="previous-match-result">VS</div>
+                        <div style="font-weight: 600;">${match["الفريق 2"] || 'غير معروف'}</div>
+                    </div>
+                    <div class="previous-match-details">
+                        <div class="previous-match-date">
+                            <span>${dateFormatted}</span>
+                            <span>${match.الساعة || ''}</span>
+                            ${daysDiff >= 0 ? `<span style="color: #27ae60; font-size: 10px; margin-right: 5px;">${daysText}</span>` : ''}
+                        </div>
+                        <div>
+                            <span class="status-badge ${badgeClass}">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted); margin-top: 5px; text-align: center;">
+                        ${match.الملعب || 'ملعب غير محدد'}
+                    </div>
+                    <div style="font-size: 10px; color: #7f8c8d; margin-top: 3px; text-align: center;">
+                        ${match.القسم || ''} - المجموعة ${match.المجموعة || ''} - الدورة ${match.الدورة || ''}
+                    </div>
                 </div>
-                <div class="previous-round-matches">
-    `;
-    
-    sortedMatches.forEach(match => {
-        const status = MatchStatusSystem.determineMatchStatus(match);
-        const badgeClass = MatchStatusSystem.getStatusBadgeClass(status);
-        const statusText = MatchStatusSystem.getStatusText(status);
-        const dateFormatted = Helper.formatArabicDate(match.تاريخ);
-        
-        // حساب الأيام المتبقية
-        const daysDiff = Helper.getDaysDifference(match.تاريخ);
-        let daysText = '';
-        if (daysDiff >= 0) {
-            daysText = `بعد ${daysDiff} يوم${daysDiff === 1 ? '' : 'ين'}`;
-        }
+            `;
+        });
         
         html += `
-            <div class="previous-round-match" 
-                 onclick="showMatchDetails(${JSON.stringify(match).replace(/"/g, '&quot;')})">
-                <div class="previous-match-teams">
-                    <div style="font-weight: 600;">${match["الفريق 1"] || 'غير معروف'}</div>
-                    <div class="previous-match-result">VS</div>
-                    <div style="font-weight: 600;">${match["الفريق 2"] || 'غير معروف'}</div>
-                </div>
-                <div class="previous-match-details">
-                    <div class="previous-match-date">
-                        <span>${dateFormatted}</span>
-                        <span>${match.الساعة || ''}</span>
-                        ${daysDiff >= 0 ? `<span style="color: #27ae60; font-size: 10px; margin-right: 5px;">${daysText}</span>` : ''}
-                    </div>
-                    <div>
-                        <span class="status-badge ${badgeClass}">
-                            ${statusText}
-                        </span>
-                    </div>
-                </div>
-                <div style="font-size: 11px; color: var(--muted); margin-top: 5px; text-align: center;">
-                    ${match.الملعب || 'ملعب غير محدد'}
-                </div>
-                <div style="font-size: 10px; color: #7f8c8d; margin-top: 3px; text-align: center;">
-                    ${match.القسم || ''} - المجموعة ${match.المجموعة || ''} - الدورة ${match.الدورة || ''}
-                </div>
-            </div>
-        `;
-    });
-    
-    html += `
                 </div>
             </div>
         </div>
-    `;
-    
-    return html;
-},
+        `;
+        
+        return html;
+    },
     
     // ========== تعديل دالة إنشاء برنامج الدورات لعرض الفرق الراحلة ==========
     createProgramTab(matches, allTeams) {
