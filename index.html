@@ -2239,158 +2239,6 @@
             .color-guide-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            /* ========== تحسينات خاصة لجدول الترتيب مع السحب الأفقي ========== */
-            /* جعل حاوية الجدول قابلة للتمرير الأفقي فقط */
-            .standings-improved {
-                position: relative;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                border-radius: 8px;
-                border: 1px solid var(--border);
-                background: white;
-                margin: 0;
-                padding: 10px 0;
-                scrollbar-width: thin;
-                scrollbar-color: var(--accent) #f1f1f1;
-            }
-            
-            /* إضافة تلميح مرئي للسحب */
-            .standings-improved::after {
-                content: "اسحب للتمرير أفقيًا";
-                position: absolute;
-                top: 5px;
-                right: 10px;
-                background: rgba(11, 93, 59, 0.9);
-                color: white;
-                padding: 4px 8px;
-                border-radius: 12px;
-                font-size: 9px;
-                z-index: 10;
-                animation: scrollHint 2s infinite;
-                pointer-events: none;
-            }
-            
-            @keyframes scrollHint {
-                0%, 100% { opacity: 0.7; }
-                50% { opacity: 1; }
-            }
-            
-            /* تحسين شريط التمرير */
-            .standings-improved::-webkit-scrollbar {
-                height: 6px;
-            }
-            
-            .standings-improved::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 3px;
-                margin: 0 10px;
-            }
-            
-            .standings-improved::-webkit-scrollbar-thumb {
-                background: var(--accent);
-                border-radius: 3px;
-            }
-            
-            .standings-improved::-webkit-scrollbar-thumb:hover {
-                background: #09482c;
-            }
-            
-            /* تثبيت العمود الأول والثاني أثناء التمرير */
-            .standings-table th:nth-child(1),
-            .standings-table td:nth-child(1) {
-                position: sticky;
-                left: 0;
-                background: white;
-                z-index: 2;
-                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-                min-width: 40px !important;
-            }
-            
-            .standings-table th:nth-child(2),
-            .standings-table td:nth-child(2) {
-                position: sticky;
-                left: 40px;
-                background: white;
-                z-index: 2;
-                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-                min-width: 150px !important;
-                max-width: 150px !important;
-            }
-            
-            /* تثبيت رأس الجدول أثناء التمرير */
-            .standings-table thead th {
-                position: sticky;
-                top: 0;
-                background: rgba(11, 93, 59, 0.1);
-                z-index: 3;
-            }
-            
-            /* تحسين تأثير السحب النشط */
-            .standings-improved.active {
-                cursor: grabbing;
-                cursor: -webkit-grabbing;
-            }
-            
-            /* إضافة ظل عند التمرير */
-            .standings-improved:before {
-                content: '';
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 30px;
-                height: 100%;
-                background: linear-gradient(to left, rgba(0,0,0,0.1), transparent);
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.3s;
-                z-index: 1;
-            }
-            
-            .standings-improved.scrolled:before {
-                opacity: 1;
-            }
-            
-            /* الحفاظ على حجم مربع الأقسام والمجموعات */
-            .section {
-                overflow: visible !important;
-            }
-            
-            .group-tab-content {
-                overflow: visible !important;
-            }
-            
-            /* إضافة مساحة للجدول للتمرير */
-            .standings-table {
-                min-width: 750px;
-                margin-bottom: 0;
-            }
-            
-            /* تحسين عرض عمود الفريق على الهواتف */
-            .team-name-cell {
-                min-width: 150px;
-                max-width: 150px;
-                text-align: right !important;
-                padding-right: 10px !important;
-            }
-            
-            /* مؤشر السحب المرئي */
-            .mobile-scroll-hint {
-                display: block !important;
-                text-align: center;
-                color: var(--muted);
-                font-size: 10px;
-                padding: 5px 0 10px 0;
-                border-bottom: 1px solid var(--border);
-                background: #f9f9f9;
-                border-radius: 5px 5px 0 0;
-                margin-bottom: 5px;
-            }
-            
-            @keyframes bounceHorizontal {
-                0%, 100% { transform: translateX(0); }
-                50% { transform: translateX(10px); }
-            }
         }
 
         /* تحسينات للشاشات الكبيرة */
@@ -2412,32 +2260,243 @@
             }
         }
 
-        /* ========== تحسينات للشاشات المتوسطة ========== */
-        @media (max-width: 992px) and (min-width: 769px) {
-            .standings-improved {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .standings-table {
-                min-width: 700px;
-            }
+        /* ========== إضافات جديدة لجدول الترتيب المصغر ========== */
+        .mini-standings-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        /* ========== تحسينات إضافية للعرض على الهواتف ========== */
-        @media (max-width: 768px) {
-            /* الحفاظ على حجم مربع الأقسام والمجموعات */
-            #divisionsContainer,
-            #groupInfoContainer {
-                max-height: none !important;
-                overflow: visible !important;
-            }
-            
-            /* تحسين عرض جدول الترتيب داخل مربعه */
-            .group-tab-content.active {
-                max-height: none !important;
-                overflow: visible !important;
-            }
+        .mini-standings-container:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
+
+        .mini-standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 20px !important;
+            min-width: 100% !important;
+        }
+
+        .mini-standings-table th,
+        .mini-standings-table td {
+            padding: 5px 12px !important;
+            text-align: center;
+            white-space: nowrap;
+            font-size: 9px !important;
+        }
+
+        .mini-standings-table th {
+            background: rgba(11, 93, 59, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .mini-standings-table th:nth-child(1),
+        .mini-standings-table td:nth-child(1) {
+            width: 5px !important;
+            min-width: 5px !important;
+        }
+
+        .mini-standings-table th:nth-child(2),
+        .mini-standings-table td:nth-child(2) {
+            width: 30px !important;
+            min-width: 30px !important;
+            text-align: right;
+            padding-right: 5px !important;
+        }
+
+        .mini-standings-table th:nth-child(3),
+        .mini-standings-table td:nth-child(3) {
+            width: 10px !important;
+            min-width:10px !important;
+            font-weight: bold;
+        }
+
+        .mini-standings-table th:nth-child(4),
+        .mini-standings-table td:nth-child(4) {
+            width: 10px !important;
+            min-width: 10px !important;
+        }
+
+        .mini-standings-table th:nth-child(5),
+        .mini-standings-table td:nth-child(5) {
+            width: 8px !important;
+            min-width: 8px !important;
+        }
+
+        .mini-standings-table th:nth-child(6),
+        .mini-standings-table td:nth-child(6) {
+            width: 10px !important;
+            min-width: 10px !important;
+        }
+
+        .mini-standings-table th:nth-child(7),
+        .mini-standings-table td:nth-child(7) {
+            width: 10px !important;
+            min-width: 10px !important;
+        }
+
+        .mini-standings-table th:nth-child(8),
+        .mini-standings-table td:nth-child(8) {
+            width: 10px !important;
+            min-width: 10px !important;
+        }
+
+        .mini-standings-table th:nth-child(9),
+        .mini-standings-table td:nth-child(9) {
+            width: 10px !important;
+            min-width: 10px !important;
+        }
+
+        .mini-standings-container::after {
+            content: "انقر لعرض الجدول الكامل";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 10px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* نافذة الجدول الكامل */
+        .standings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .standings-overlay.active {
+            display: flex;
+        }
+
+        .standings-container-full {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 95%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .standings-header {
+            background: linear-gradient(135deg, var(--accent), #0a4a2f);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .standings-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .close-standings {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-standings:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .standings-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .full-standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .full-standings-table th,
+        .full-standings-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .full-standings-table th {
+            background: rgba(11, 93, 59, 0.1);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .full-standings-table tr:hover {
+            background: rgba(11, 93, 59, 0.05);
+        }
+
+        .standings-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .standings-info h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .standings-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .standings-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
@@ -2493,6 +2552,19 @@
                     <button class="close-match-details" onclick="closeMatchDetails()">×</button>
                 </div>
                 <div class="match-details-content" id="matchDetailsContent">
+                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة الجدول الكامل -->
+        <div class="standings-overlay" id="standingsOverlay">
+            <div class="standings-container-full" id="standingsContainerFull">
+                <div class="standings-header">
+                    <h2 id="standingsTitle">جدول الترتيب الكامل</h2>
+                    <button class="close-standings" onclick="closeFullStandings()">×</button>
+                </div>
+                <div class="standings-content" id="standingsContent">
                     <!-- سيتم ملؤها بالجافاسكريبت -->
                 </div>
             </div>
@@ -3233,7 +3305,7 @@ const DynamicDivisionsManager = {
                 </div>
                 
                 <div class="group-tab-content active" id="standings-tab">
-                    ${this.createStandingsTab(groupMatches)}
+                    ${this.createMiniStandingsTab(groupMatches, section, group)}
                 </div>
                 
                 <div class="group-tab-content" id="lastRound-tab">
@@ -3258,9 +3330,6 @@ const DynamicDivisionsManager = {
             // إضافة مستمعات الأحداث للتبويبات
             this.attachGroupTabListeners();
             
-            // تهيئة السحب الأفقي بعد تحميل البيانات
-            setTimeout(initializeHorizontalScroll, 100);
-            
         } catch (error) {
             console.error('خطأ في تحميل بيانات المجموعة:', error);
             document.getElementById('groupInfoContainer').innerHTML = `
@@ -3269,6 +3338,201 @@ const DynamicDivisionsManager = {
                 <div class="loading-data">حدث خطأ في تحميل بيانات المجموعة</div>
             `;
         }
+    },
+    
+    // ========== دالة جديدة لإنشاء جدول مصغر ==========
+    createMiniStandingsTab(matches, section, group) {
+        if (matches.length === 0) {
+            return '<div class="today-matches-empty">لا توجد بيانات لجدول الترتيب</div>';
+        }
+        
+        // حساب الترتيب
+        const standings = this.calculateStandings(matches);
+        
+        // حفظ البيانات للاستخدام لاحقاً
+        window.currentStandingsData = {
+            standings: standings,
+            section: section,
+            group: group,
+            matches: matches
+        };
+        
+        let standingsHTML = `
+            <div class="mini-standings-container" onclick="showFullStandings()">
+                <table class="mini-standings-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الفريق</th>
+                            <th>نقاط</th>
+                            <th>ل</th>
+                            <th>ف</th>
+                            <th>ت</th>
+                            <th>خ</th>
+                            <th>له</th>
+                            <th>ع</th>
+                            <th>±</th>
+<th>انسحابات</th>
+                            <th>عقوبات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        standings.forEach((team, index) => {
+            const position = index + 1;
+            const isPromotion = position <= 2;
+            const isRelegation = position > standings.length - 2;
+            const rowClass = isPromotion ? 'promotion' : (isRelegation ? 'relegation' : '');
+            
+            // اختصار اسم الفريق
+            const teamName = team.name.length > 15 ? team.name.substring(0, 12) + '...' : team.name;
+            
+            standingsHTML += `
+                <tr class="${rowClass}">
+                    <td class="position-cell">${position}</td>
+                    <td class="team-name-cell">${teamName}</td>
+                    <td class="points-cell">${team.points}</td>
+                    <td>${team.played}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.draws}</td>
+                    <td>${team.losses}</td>
+                    <td>${team.goalsFor}</td>
+                    <td>${team.goalsAgainst}</td>
+                    <td>${team.diff > 0 ? '+' : ''}${team.diff}</td>
+  <td>${team.withdrawals || 0}</td>
+                    <td>${team.penalties || 0}</td>
+                </tr>
+            `;
+        });
+        
+        standingsHTML += `
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 10px; font-size: 10px; color: var(--muted);">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <div style="width: 10px; height: 10px; background: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60;"></div>
+                        <span>ترقية</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <div style="width: 10px; height: 10px; background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c;"></div>
+                        <span>هبوط</span>
+                    </div>
+                    <div style="margin-right: auto;">
+                        <strong>ل</strong>: لعب - <strong>ف</strong>: فوز - <strong>ت</strong>: تعادل - <strong>خ</strong>: خسارة
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        return standingsHTML;
+    },
+    
+    // ========== دالة جديدة لعرض الجدول الكامل ==========
+    createFullStandingsContent() {
+        if (!window.currentStandingsData) {
+            return '<div class="loading-data">لا توجد بيانات</div>';
+        }
+        
+        const { standings, section, group, matches } = window.currentStandingsData;
+        
+        let standingsHTML = `
+            <div class="standings-info">
+                <h4>${section} - المجموعة ${group}</h4>
+                <div class="standings-info-grid">
+                    <div class="standings-info-item">
+                        <strong>عدد الفرق:</strong>
+                        <span>${standings.length}</span>
+                    </div>
+                    <div class="standings-info-item">
+                        <strong>عدد المباريات:</strong>
+                        <span>${matches.length}</span>
+                    </div>
+                    <div class="standings-info-item">
+                        <strong>آخر تحديث:</strong>
+                        <span>${new Date().toLocaleDateString('ar-EG')}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="standings-container standings-improved">
+                <table class="full-standings-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الفريق</th>
+                            <th>نقاط</th>
+                            <th>لعب</th>
+                            <th>فوز</th>
+                            <th>تعادل</th>
+                            <th>خسارة</th>
+                            <th>له</th>
+                            <th>عليه</th>
+                            <th>±</th>
+                            <th>انسحابات</th>
+                            <th>عقوبات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        standings.forEach((team, index) => {
+            const position = index + 1;
+            const isPromotion = position <= 2;
+            const isRelegation = position > standings.length - 2;
+            const rowClass = isPromotion ? 'promotion' : (isRelegation ? 'relegation' : '');
+            
+            standingsHTML += `
+                <tr class="${rowClass}">
+                    <td class="position-cell">${position}</td>
+                    <td class="team-name-cell" style="font-weight: 600;">${team.name}</td>
+                    <td class="points-cell" style="font-size: 16px; font-weight: bold;">${team.points}</td>
+                    <td>${team.played}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.draws}</td>
+                    <td>${team.losses}</td>
+                    <td>${team.goalsFor}</td>
+                    <td>${team.goalsAgainst}</td>
+                    <td style="font-weight: bold; color: ${team.diff > 0 ? '#27ae60' : (team.diff < 0 ? '#e74c3c' : '#333')}">
+                        ${team.diff > 0 ? '+' : ''}${team.diff}
+                    </td>
+                    <td>${team.withdrawals || 0}</td>
+                    <td>${team.penalties || 0}</td>
+                </tr>
+            `;
+        });
+        
+        standingsHTML += `
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="standings-info" style="margin-top: 20px;">
+                <h4>مفاتيح الجدول</h4>
+                <div class="standings-info-grid">
+                    <div class="standings-info-item">
+                        <div style="width: 15px; height: 15px; background: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60;"></div>
+                        <span>مراكز الترقية (المركزان الأولان)</span>
+                    </div>
+                    <div class="standings-info-item">
+                        <div style="width: 15px; height: 15px; background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c;"></div>
+                        <span>مراكز الهبوط (آخر مركزين)</span>
+                    </div>
+                    <div class="standings-info-item">
+                        <div style="width: 15px; height: 15px; background: #fff; border: 1px solid var(--border);"></div>
+                        <span>مراكز متوسطة</span>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px;">
+                    <p><strong>ملاحظة:</strong> ± تعني فارق الأهداف (الأهداف له - الأهداف عليه)</p>
+                </div>
+            </div>
+        `;
+        
+        return standingsHTML;
     },
     
     // ========== دالة جديدة للحصول على الفرق في المجموعة ==========
@@ -3313,98 +3577,7 @@ const DynamicDivisionsManager = {
         }
     },
     
-    // ========== دالة محسنة لإنشاء جدول الترتيب مع خاصية السحب ==========
-    createStandingsTab(matches) {
-        if (matches.length === 0) {
-            return '<div class="today-matches-empty">لا توجد بيانات لجدول الترتيب</div>';
-        }
-        
-        // حساب الترتيب
-        const standings = this.calculateStandings(matches);
-        
-        let standingsHTML = `
-            <div class="standings-container standings-improved">
-                <!-- مؤشر السحب للهواتف -->
-                <div class="mobile-scroll-hint" style="display: none; text-align: center; color: var(--muted); font-size: 10px; padding: 5px 0 10px 0; border-bottom: 1px solid var(--border); background: #f9f9f9; border-radius: 5px 5px 0 0; margin-bottom: 5px;">
-                    <span style="display: inline-block; animation: bounceHorizontal 1.5s infinite;">↔ اسحب لرؤية الأعمدة كاملة ↔</span>
-                </div>
-                
-                <table class="standings-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>الفريق</th>
-                            <th>نقاط</th>
-                            <th>ل</th>
-                            <th>ف</th>
-                            <th>ت</th>
-                            <th>خ</th>
-                            <th>له</th>
-                            <th>ع</th>
-                            <th>±</th>
-                            <th>انس</th>
-                            <th>عقوبات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
-        
-        standings.forEach((team, index) => {
-            const position = index + 1;
-            const isPromotion = position <= 2;
-            const isRelegation = position > standings.length - 2;
-            const rowClass = isPromotion ? 'promotion' : (isRelegation ? 'relegation' : '');
-            
-            standingsHTML += `
-                <tr class="${rowClass}">
-                    <td class="position-cell">${position}</td>
-                    <td class="team-name-cell">${team.name}</td>
-                    <td class="points-cell">${team.points}</td>
-                    <td>${team.played}</td>
-                    <td>${team.wins}</td>
-                    <td>${team.draws}</td>
-                    <td>${team.losses}</td>
-                    <td>${team.goalsFor}</td>
-                    <td>${team.goalsAgainst}</td>
-                    <td>${team.diff > 0 ? '+' : ''}${team.diff}</td>
-                    <td>${team.withdrawals || 0}</td>
-                    <td>${team.penalties || 0}</td>
-                </tr>
-            `;
-        });
-        
-        standingsHTML += `
-                </tbody>
-            </table>
-            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px;">
-                <div style="display: flex; align-items: center; gap: 5px; color: var(--muted);">
-                    <div style="width: 15px; height: 15px; background: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60;"></div>
-                    <span>ترقية</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 5px; color: var(--muted);">
-                    <div style="width: 15px; height: 15px; background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c;"></div>
-                    <span>هبوط</span>
-                </div>
-                <div style="margin-left: auto; display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: var(--muted);">
-                    <div><strong>ل</strong>: لعب - <strong>ف</strong>: فوز - <strong>ت</strong>: تعادل</div>
-                    <div><strong>خ</strong>: خسارة - <strong>له</strong>: أهداف له - <strong>ع</strong>: أهداف عليه</div>
-                    <div><strong>±</strong>: فارق الأهداف - <strong>انس</strong>: انسحابات - <strong>عقوبات</strong>: عقوبات</div>
-                </div>
-            </div>
-        </div>
-        
-        <style>
-            @keyframes bounceHorizontal {
-                0%, 100% { transform: translateX(0); }
-                50% { transform: translateX(10px); }
-            }
-        </style>
-        `;
-        
-        return standingsHTML;
-    },
-    
-    // ========== دالة محسنة لحساب الترتيب مع الإحصائيات الجديدة ==========
+    // ========== دالة محسنة لإنشاء جدول الترتيب مع الأعمدة الجديدة ==========
     calculateStandings(matches) {
         const teams = {};
         
@@ -3421,8 +3594,8 @@ const DynamicDivisionsManager = {
                     goalsAgainst: 0, 
                     points: 0,
                     goalDifference: 0,
-                    withdrawals: 0,
-                    penalties: 0
+                    withdrawals: 0, // جديد: عدد مرات الانسحاب
+                    penalties: 0    // جديد: عدد مرات العقوبة
                 };
             }
             if (match["الفريق 2"]) {
@@ -3436,8 +3609,8 @@ const DynamicDivisionsManager = {
                     goalsAgainst: 0, 
                     points: 0,
                     goalDifference: 0,
-                    withdrawals: 0,
-                    penalties: 0
+                    withdrawals: 0, // جديد: عدد مرات الانسحاب
+                    penalties: 0    // جديد: عدد مرات العقوبة
                 };
             }
         });
@@ -3454,7 +3627,7 @@ const DynamicDivisionsManager = {
                 team1.played++;
                 team1.losses++;
                 team1.goalsAgainst += 3;
-                team1.withdrawals++;
+                team1.withdrawals++; // زيادة عدد مرات الانسحاب
                 
                 team2.played++;
                 team2.wins++;
@@ -3467,7 +3640,7 @@ const DynamicDivisionsManager = {
                 team2.played++;
                 team2.losses++;
                 team2.goalsAgainst += 3;
-                team2.withdrawals++;
+                team2.withdrawals++; // زيادة عدد مرات الانسحاب
                 
                 team1.played++;
                 team1.wins++;
@@ -3483,11 +3656,11 @@ const DynamicDivisionsManager = {
             
             // حساب العقوبات
             if (match["عقوبة الفريق 1"] && match["عقوبة الفريق 1"] !== "") {
-                team1.penalties++;
+                team1.penalties++; // زيادة عدد مرات العقوبة
             }
             
             if (match["عقوبة الفريق 2"] && match["عقوبة الفريق 2"] !== "") {
-                team2.penalties++;
+                team2.penalties++; // زيادة عدد مرات العقوبة
             }
             
             // حالة المباراة العادية
@@ -3981,9 +4154,6 @@ const DynamicDivisionsManager = {
                 // إضافة النشط للتبويب المحدد
                 this.classList.add('active');
                 document.getElementById(`${tabName}-tab`).classList.add('active');
-                
-                // تهيئة السحب الأفقي بعد تغيير التبويب
-                setTimeout(initializeHorizontalScroll, 100);
             });
         });
     },
@@ -4000,124 +4170,27 @@ const DynamicDivisionsManager = {
     }
 };
 
-// ========== دالة لتهيئة السحب الأفقي للهواتف ==========
-function initializeHorizontalScroll() {
-    // التحقق إذا كان المستخدم على هاتف
-    const isMobile = window.innerWidth <= 768;
+// ========== دوال جديدة لعرض الجدول الكامل ==========
+function showFullStandings() {
+    if (!window.currentStandingsData) return;
     
-    if (isMobile) {
-        // إظهار مؤشر السحب للهواتف
-        document.querySelectorAll('.mobile-scroll-hint').forEach(hint => {
-            hint.style.display = 'block';
-        });
-        
-        // إضافة مستمعات الأحداث لجداول الترتيب
-        document.querySelectorAll('.standings-improved').forEach(container => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-            
-            container.addEventListener('mousedown', (e) => {
-                isDown = true;
-                container.classList.add('active');
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-            });
-            
-            container.addEventListener('mouseleave', () => {
-                isDown = false;
-                container.classList.remove('active');
-            });
-            
-            container.addEventListener('mouseup', () => {
-                isDown = false;
-                container.classList.remove('active');
-            });
-            
-            container.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-                container.scrollLeft = scrollLeft - walk;
-                
-                // إضافة تأثير الظل عند التمرير
-                if (container.scrollLeft > 10) {
-                    container.classList.add('scrolled');
-                } else {
-                    container.classList.remove('scrolled');
-                }
-            });
-            
-            // دعم اللمس للهواتف
-            container.addEventListener('touchstart', (e) => {
-                isDown = true;
-                startX = e.touches[0].pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-                container.classList.add('active');
-            });
-            
-            container.addEventListener('touchend', () => {
-                isDown = false;
-                container.classList.remove('active');
-            });
-            
-            container.addEventListener('touchmove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.touches[0].pageX - container.offsetLeft;
-                const walk = (x - startX);
-                container.scrollLeft = scrollLeft - walk;
-                
-                // إضافة تأثير الظل عند التمرير
-                if (container.scrollLeft > 10) {
-                    container.classList.add('scrolled');
-                } else {
-                    container.classList.remove('scrolled');
-                }
-            });
-            
-            // إخفاء المؤشر بعد السحب الأول
-            container.addEventListener('scroll', function() {
-                const hint = this.querySelector('.mobile-scroll-hint');
-                if (hint && this.scrollLeft > 50) {
-                    hint.style.transition = 'opacity 0.5s';
-                    hint.style.opacity = '0';
-                    setTimeout(() => {
-                        hint.style.display = 'none';
-                    }, 500);
-                }
-            });
-        });
-    } else {
-        // إخفاء مؤشر السحب على الشاشات الكبيرة
-        document.querySelectorAll('.mobile-scroll-hint').forEach(hint => {
-            hint.style.display = 'none';
-        });
-    }
+    const { section, group } = window.currentStandingsData;
+    
+    // تحديث العنوان
+    document.getElementById('standingsTitle').textContent = `جدول الترتيب - ${section} - المجموعة ${group}`;
+    
+    // إنشاء المحتوى
+    const content = DynamicDivisionsManager.createFullStandingsContent();
+    document.getElementById('standingsContent').innerHTML = content;
+    
+    // إظهار النافذة
+    document.getElementById('standingsOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-// ========== دالة لإضافة تأثيرات التمرير ==========
-function addScrollEffects() {
-    document.querySelectorAll('.standings-improved').forEach(container => {
-        container.addEventListener('scroll', function() {
-            if (this.scrollLeft > 10) {
-                this.classList.add('scrolled');
-            } else {
-                this.classList.remove('scrolled');
-            }
-            
-            // إخفاء المؤشر بعد السحب
-            const hint = this.querySelector('.mobile-scroll-hint');
-            if (hint && this.scrollLeft > 50) {
-                hint.style.transition = 'opacity 0.5s';
-                hint.style.opacity = '0';
-                setTimeout(() => {
-                    hint.style.display = 'none';
-                }, 500);
-            }
-        });
-    });
+function closeFullStandings() {
+    document.getElementById('standingsOverlay').classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
 // ========== عرض تفاصيل المباراة ==========
@@ -5034,12 +5107,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(updateVisitCounter, 1000);
     setTimeout(loadAds, 1000);
     
-    // تهيئة السحب الأفقي بعد التحميل
-    setTimeout(() => {
-        initializeHorizontalScroll();
-        addScrollEffects();
-    }, 1500);
-    
     // تحديث الأقسام تلقائياً كل 5 دقائق
     setInterval(() => {
         DynamicDivisionsManager.refreshData();
@@ -5064,6 +5131,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (document.getElementById('matchDetailsOverlay').classList.contains('active')) {
                 closeMatchDetails();
             }
+            if (document.getElementById('standingsOverlay').classList.contains('active')) {
+                closeFullStandings();
+            }
         }
     });
     
@@ -5080,6 +5150,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    document.getElementById('standingsOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeFullStandings();
+        }
+    });
+    
     // تحديث المباريات الحية تلقائياً كل 30 ثانية
     setInterval(() => {
         const activeTab = document.querySelector('.matches-tab.active');
@@ -5087,11 +5163,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loadTodayMatches();
         }
     }, 30000);
-    
-    // تحديث السحب الأفقي عند تغيير حجم النافذة
-    window.addEventListener('resize', function() {
-        setTimeout(initializeHorizontalScroll, 300);
-    });
 });
 
 // ========== نظام التاريخ والوقت ==========
